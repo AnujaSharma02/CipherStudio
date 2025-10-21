@@ -1,26 +1,149 @@
 @import "tailwindcss";
+@import "tw-animate-css";
 
-:root {
-  --background: #ffffff;
-  --foreground: #171717;
-}
+@custom-variant dark (&:is(.dark *));
 
 @theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
+  --color-background: hsl(var(--background));
+  --color-foreground: hsl(var(--foreground));
+  --font-sans: var(--font-poppins);
+  --font-mono: var(--font-jetbrains-mono);
+  --color-ring: hsl(var(--ring));
+  --color-input: hsl(var(--input));
+  --color-border: hsl(var(--border));
+  --color-destructive: hsl(var(--destructive));
+  --color-destructive-foreground: hsl(var(--destructive-foreground));
+  --color-accent-foreground: hsl(var(--accent-foreground));
+  --color-accent: hsl(var(--accent));
+  --color-muted-foreground: hsl(var(--muted-foreground));
+  --color-muted: hsl(var(--muted));
+  --color-secondary-foreground: hsl(var(--secondary-foreground));
+  --color-secondary: hsl(var(--secondary));
+  --color-primary-foreground: hsl(var(--primary-foreground));
+  --color-primary: hsl(var(--primary));
+  --color-popover-foreground: hsl(var(--popover-foreground));
+  --color-popover: hsl(var(--popover));
+  --color-card-foreground: hsl(var(--card-foreground));
+  --color-card: hsl(var(--card));
+
+  /* IDE specific colors */
+  --color-editor-bg: hsl(var(--editor-bg));
+  --color-editor-border: hsl(var(--editor-border));
+  --color-sidebar-bg: hsl(var(--sidebar-bg));
+  --color-sidebar-border: hsl(var(--sidebar-border));
+  --color-preview-bg: hsl(var(--preview-bg));
+  --color-preview-border: hsl(var(--preview-border));
+  --color-tab-bg: hsl(var(--tab-bg));
+  --color-tab-active-bg: hsl(var(--tab-active-bg));
+  --color-tab-border: hsl(var(--tab-border));
+
+  --radius-sm: calc(var(--radius) - 4px);
+  --radius-md: calc(var(--radius) - 2px);
+  --radius-lg: var(--radius);
+  --radius-xl: calc(var(--radius) + 4px);
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
+:root {
+  --radius: 0.5rem;
+
+  /* Light theme - Pure white and neutral grays */
+  --background: 0 0% 100%;
+  --foreground: 0 0% 9%;
+  --card: 0 0% 100%;
+  --card-foreground: 0 0% 9%;
+  --popover: 0 0% 100%;
+  --popover-foreground: 0 0% 9%;
+  --primary: 221.2 83.2% 53.3%;
+  --primary-foreground: 0 0% 98%;
+  --secondary: 0 0% 96%;
+  --secondary-foreground: 0 0% 9%;
+  --muted: 0 0% 96%;
+  --muted-foreground: 0 0% 45%;
+  --accent: 0 0% 96%;
+  --accent-foreground: 0 0% 9%;
+  --destructive: 0 84.2% 60.2%;
+  --destructive-foreground: 0 0% 98%;
+  --border: 0 0% 90%;
+  --input: 0 0% 90%;
+  --ring: 221.2 83.2% 53.3%;
+
+  /* IDE specific colors - Light theme */
+  --editor-bg: 0 0% 100%;
+  --editor-border: 0 0% 90%;
+  --sidebar-bg: 0 0% 98%;
+  --sidebar-border: 0 0% 90%;
+  --preview-bg: 0 0% 100%;
+  --preview-border: 0 0% 90%;
+  --tab-bg: 0 0% 100%;
+  --tab-active-bg: 0 0% 96%;
+  --tab-border: 0 0% 90%;
+}
+
+.dark {
+  /* Dark theme - Pure black and neutral grays */
+  --background: 0 0% 0%;
+  --foreground: 0 0% 98%;
+  --card: 0 0% 0%;
+  --card-foreground: 0 0% 98%;
+  --popover: 0 0% 0%;
+  --popover-foreground: 0 0% 98%;
+  --primary: 217.2 91.2% 59.8%;
+  --primary-foreground: 0 0% 9%;
+  --secondary: 0 0% 9%;
+  --secondary-foreground: 0 0% 98%;
+  --muted: 0 0% 9%;
+  --muted-foreground: 0 0% 64%;
+  --accent: 0 0% 9%;
+  --accent-foreground: 0 0% 98%;
+  --destructive: 0 62.8% 30.6%;
+  --destructive-foreground: 0 0% 98%;
+  --border: 0 0% 15%;
+  --input: 0 0% 15%;
+  --ring: 217.2 91.2% 59.8%;
+
+  /* IDE specific colors - Dark theme */
+  --editor-bg: 0 0% 0%;
+  --editor-border: 0 0% 15%;
+  --sidebar-bg: 0 0% 3%;
+  --sidebar-border: 0 0% 15%;
+  --preview-bg: 0 0% 0%;
+  --preview-border: 0 0% 15%;
+  --tab-bg: 0 0% 0%;
+  --tab-active-bg: 0 0% 9%;
+  --tab-border: 0 0% 15%;
+}
+
+@layer base {
+  * {
+    @apply border-border;
   }
-}
 
-body {
-  background: var(--background);
-  color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+  body {
+    @apply bg-background text-foreground font-sans antialiased;
+    font-feature-settings: "rlig" 1, "calt" 1;
+  }
+
+  /* CodeSandbox-like scrollbars */
+  ::-webkit-scrollbar {
+    width: 8px;
+    height: 8px;
+  }
+
+  ::-webkit-scrollbar-track {
+    background: hsl(var(--muted));
+  }
+
+  ::-webkit-scrollbar-thumb {
+    background: hsl(var(--border));
+    border-radius: 4px;
+  }
+
+  ::-webkit-scrollbar-thumb:hover {
+    background: hsl(var(--muted-foreground));
+  }
+
+  /* Focus styles */
+  *:focus-visible {
+    @apply outline-none ring-2 ring-ring ring-offset-2 ring-offset-background;
+  }
 }
